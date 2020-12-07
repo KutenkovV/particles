@@ -18,11 +18,13 @@ namespace particles
         List<Particle> particles = new List<Particle>();
 
         GravityPoint point1; // добавил поле под первую точку
-        GravityPoint point2; // добавил поле под вторую точку
+        RadarPoint point2; // добавил поле под вторую точку
 
         public Form1()
         {
             InitializeComponent();
+
+            picDisplay.MouseWheel += picDisplay_MouseWheel;
 
             // привязали к пикчбоку изображения, чтоб можно было рисовать
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
@@ -37,7 +39,7 @@ namespace particles
                 SpeedMax = 10,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.Red),
-                ParticlesPerTick = 10,
+                ParticlesPerTick = 1,
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
             };
@@ -49,11 +51,13 @@ namespace particles
                 X = picDisplay.Width / 2 + 100,
                 Y = picDisplay.Height / 2,
             };
-            point2 = new GravityPoint
+
+            point2 = new RadarPoint
             {
                 X = picDisplay.Width / 2 - 100,
                 Y = picDisplay.Height / 2,
             };
+
 
             // привязываем поля к эмиттеру
             emitter.impactPoints.Add(point1);
@@ -150,6 +154,21 @@ namespace particles
             if (radioButton1.Checked)
             {
                 emitter.GravitationY = 1;
+            }
+        }
+
+        // наш скролл радара мышкой (косячный т.к. вылетает при выходе из диапозона)
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                point2.Power = tbGraviton2.Value;
+                tbGraviton2.Value = tbGraviton2.Value + 15;
+            }
+            else if (e.Delta < 0)
+            {
+                point2.Power = tbGraviton2.Value;
+                tbGraviton2.Value = tbGraviton2.Value - 15;
             }
         }
     }

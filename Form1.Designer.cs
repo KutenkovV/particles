@@ -46,6 +46,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).BeginInit();
@@ -125,9 +126,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(361, 598);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 13);
+            this.label3.Size = new System.Drawing.Size(139, 13);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Сила певого гравитона";
+            this.label3.Text = "Размер певого гравитона";
             // 
             // lblGraviton2
             // 
@@ -151,9 +152,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(522, 598);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(130, 13);
+            this.label5.Size = new System.Drawing.Size(144, 13);
             this.label5.TabIndex = 12;
-            this.label5.Text = "Сила второго гравитона";
+            this.label5.Text = "Размер второго гравитона";
             // 
             // lblGraviton1
             // 
@@ -165,6 +166,7 @@
             // 
             // tbGraviton2
             // 
+            this.tbGraviton2.LargeChange = 15;
             this.tbGraviton2.Location = new System.Drawing.Point(344, 616);
             this.tbGraviton2.Maximum = 359;
             this.tbGraviton2.Name = "tbGraviton2";
@@ -256,6 +258,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }
 
