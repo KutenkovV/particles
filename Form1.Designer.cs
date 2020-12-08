@@ -37,21 +37,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblSpreading = new System.Windows.Forms.Label();
             this.tbSpreading = new System.Windows.Forms.TrackBar();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblGraviton2 = new System.Windows.Forms.Label();
-            this.tbGraviton1 = new System.Windows.Forms.TrackBar();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblGraviton1 = new System.Windows.Forms.Label();
-            this.tbGraviton2 = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.label6 = new System.Windows.Forms.Label();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // picDisplay
@@ -121,63 +116,10 @@
             this.tbSpreading.TabIndex = 4;
             this.tbSpreading.Scroll += new System.EventHandler(this.tbSpreading_Scroll);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(361, 598);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(139, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Размер певого гравитона";
-            // 
-            // lblGraviton2
-            // 
-            this.lblGraviton2.AutoSize = true;
-            this.lblGraviton2.Location = new System.Drawing.Point(486, 616);
-            this.lblGraviton2.Name = "lblGraviton2";
-            this.lblGraviton2.Size = new System.Drawing.Size(0, 13);
-            this.lblGraviton2.TabIndex = 8;
-            // 
-            // tbGraviton1
-            // 
-            this.tbGraviton1.Location = new System.Drawing.Point(510, 616);
-            this.tbGraviton1.Maximum = 359;
-            this.tbGraviton1.Name = "tbGraviton1";
-            this.tbGraviton1.Size = new System.Drawing.Size(142, 45);
-            this.tbGraviton1.TabIndex = 7;
-            this.tbGraviton1.Scroll += new System.EventHandler(this.tbGraviton1_Scroll);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(522, 598);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(144, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Размер второго гравитона";
-            // 
-            // lblGraviton1
-            // 
-            this.lblGraviton1.AutoSize = true;
-            this.lblGraviton1.Location = new System.Drawing.Point(652, 616);
-            this.lblGraviton1.Name = "lblGraviton1";
-            this.lblGraviton1.Size = new System.Drawing.Size(0, 13);
-            this.lblGraviton1.TabIndex = 11;
-            // 
-            // tbGraviton2
-            // 
-            this.tbGraviton2.LargeChange = 15;
-            this.tbGraviton2.Location = new System.Drawing.Point(344, 616);
-            this.tbGraviton2.Maximum = 359;
-            this.tbGraviton2.Name = "tbGraviton2";
-            this.tbGraviton2.Size = new System.Drawing.Size(142, 45);
-            this.tbGraviton2.TabIndex = 10;
-            this.tbGraviton2.Scroll += new System.EventHandler(this.tbGraviton2_Scroll);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(681, 598);
+            this.label4.Location = new System.Drawing.Point(507, 598);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(121, 13);
             this.label4.TabIndex = 13;
@@ -187,7 +129,7 @@
             // 
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(684, 616);
+            this.radioButton1.Location = new System.Drawing.Point(510, 616);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(105, 17);
             this.radioButton1.TabIndex = 14;
@@ -199,27 +141,41 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(684, 639);
+            this.radioButton2.Location = new System.Drawing.Point(510, 639);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(113, 17);
             this.radioButton2.TabIndex = 15;
             this.radioButton2.Text = "Гравитация выкл";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(346, 598);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(103, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Количество частиц";
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(345, 616);
+            this.trackBar1.Maximum = 20;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(142, 45);
+            this.trackBar1.TabIndex = 16;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1044, 745);
+            this.ClientSize = new System.Drawing.Size(1042, 668);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.lblGraviton1);
-            this.Controls.Add(this.tbGraviton2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.lblGraviton2);
-            this.Controls.Add(this.tbGraviton1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblSpreading);
             this.Controls.Add(this.tbSpreading);
@@ -232,8 +188,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpreading)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -249,16 +204,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblSpreading;
         private System.Windows.Forms.TrackBar tbSpreading;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblGraviton2;
-        private System.Windows.Forms.TrackBar tbGraviton1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblGraviton1;
-        private System.Windows.Forms.TrackBar tbGraviton2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TrackBar trackBar1;
     }
 }
 

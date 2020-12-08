@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+
 namespace particles
 {
     public class Particle
@@ -45,6 +46,58 @@ namespace particles
             g.FillEllipse(b, X - Radius, Y - Radius, Radius * 2, Radius * 2);
 
             b.Dispose();
+        }
+    }
+
+    public class RadarPoint : IImpactPoint
+    {
+
+        public List<Particle> RadarPoints = new List<Particle>(); // лист радара
+        public HashSet<Particle> rad = new HashSet<Particle>();
+
+        public int Power = 100; // размер кружка        
+
+        public override void ImpactParticle(Particle particle)
+        {
+            float gX = X - particle.X;
+            float gY = Y - particle.Y;
+
+            double r = Math.Sqrt(gX * gX + gY * gY);
+            if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
+            {
+                var color = particle as ParticleColorful;
+                color.FromColor = (Color.Green);
+                color.ToColor = (Color.Green);
+                rad.Add(particle);
+            }
+            else
+            {
+                rad.Remove(particle);
+
+                var color = particle as ParticleColorful;
+                color.FromColor = (Color.Gold);
+                color.ToColor = (Color.Red);
+            }
+
+        }
+
+        public override void Render(Graphics g)
+        {
+            g.DrawEllipse(
+                   new Pen(Color.Green),
+                   X - Power / 2,
+                   Y - Power / 2,
+                   Power,
+                   Power
+               );
+
+            g.DrawString(
+            $"\n{rad.Count}",
+            new Font("Verdana", 18),
+            new SolidBrush(Color.White),
+            X,
+            Y
+        );
         }
     }
 
