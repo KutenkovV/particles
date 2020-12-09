@@ -18,7 +18,7 @@ namespace particles
         public int SpeedMax = 10; // начальная максимальная скорость движения частицы
         public int RadiusMin = 2; // минимальный радиус частицы
         public int RadiusMax = 10; // максимальный радиус частицы
-        public int LifeMin = 20; // минимальное время жизни частицы
+        public int LifeMin = 40; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
 
         public int ParticlesPerTick = 1;
@@ -74,6 +74,7 @@ namespace particles
 
             foreach (var particle in particles)
             {
+                particle.Life -= 1; // уменьшаю здоровье
                 if (particle.Life < 0)
                 {
                     ResetParticle(particle);

@@ -30,6 +30,7 @@ namespace particles
         }
     }
 
+    // до лучших времен
     public class GravityPoint : IImpactPoint
     {
         public int Power = 100; // сила притяжения
@@ -71,6 +72,7 @@ namespace particles
         }
     }
 
+    // до лучших времен
     public class AntiGravityPoint : IImpactPoint
     {
         public int Power = 100; // сила отторжения

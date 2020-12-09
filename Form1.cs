@@ -128,5 +128,15 @@ namespace particles
             emitter.ParticlesPerTick = trackBar1.Value;
             trackBar1.Value = trackBar1.Value;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            emitters.Clear();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

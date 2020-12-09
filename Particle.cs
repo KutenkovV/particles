@@ -51,9 +51,9 @@ namespace particles
 
     public class RadarPoint : IImpactPoint
     {
-
-        public List<Particle> RadarPoints = new List<Particle>(); // лист радара
         public HashSet<Particle> rad = new HashSet<Particle>();
+        public HashSet<Particle> big = new HashSet<Particle>();
+        public HashSet<Particle> small = new HashSet<Particle>();
 
         public int Power = 100; // размер кружка        
 
@@ -66,19 +66,31 @@ namespace particles
             if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
             {
                 var color = particle as ParticleColorful;
+
                 color.FromColor = (Color.Green);
                 color.ToColor = (Color.Green);
                 rad.Add(particle);
+
+                if(particle.Radius > 5)
+                {
+                    big.Add(particle);
+                } else if(particle.Radius < 5)
+                {
+                    small.Add(particle);
+                }
             }
             else
             {
+                // чистим наши хэш-листы
                 rad.Remove(particle);
+                big.Remove(particle);
+                small.Remove(particle);
 
                 var color = particle as ParticleColorful;
-                color.FromColor = (Color.Gold);
-                color.ToColor = (Color.Red);
-            }
 
+                color.FromColor = (Color.Gold);
+                color.ToColor = Color.FromArgb(0, Color.Red);
+            }
         }
 
         public override void Render(Graphics g)
@@ -92,8 +104,8 @@ namespace particles
                );
 
             g.DrawString(
-            $"\n{rad.Count}",
-            new Font("Verdana", 18),
+            $"\n{rad.Count} \nБольшие {big.Count} \nМаленькие {small.Count}",
+            new Font("Verdana", 14),
             new SolidBrush(Color.White),
             X,
             Y
