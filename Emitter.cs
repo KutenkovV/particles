@@ -21,7 +21,7 @@ namespace particles
         public int LifeMin = 40; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
 
-        public int ParticlesPerTick = 1;
+        public int ParticlesPerTick = 5;
 
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
@@ -34,7 +34,7 @@ namespace particles
         public float GravitationX = 0;
         public float GravitationY = 1;
 
-        List<Particle> particles = new List<Particle>();
+        public List<Particle> particles = new List<Particle>();
 
 
         // добавил новый метод, виртуальным, чтобы переопределять можно было
@@ -54,6 +54,13 @@ namespace particles
             particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
 
             particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
+
+            if(particle.Life > 0)
+            {
+                var color = new ParticleColorful();
+                color.FromColor = ColorFrom;
+                color.ToColor = ColorTo;
+            }
         }
 
         // метод для генерации частицы
@@ -73,9 +80,8 @@ namespace particles
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
 
             foreach (var particle in particles)
-            {
-                particle.Life -= 1; // уменьшаю здоровье
-                if (particle.Life < 0)
+            {   
+                if (particle.Life <= 0)
                 {
                     ResetParticle(particle);
 
@@ -99,6 +105,8 @@ namespace particles
 
                     particle.SpeedX += GravitationX;
                     particle.SpeedY += GravitationY;
+
+                    particle.Life -= 1; // уменьшаю здоровье
                 }
             }
 
@@ -126,16 +134,6 @@ namespace particles
             {
                 point.Render(g);
             }
-
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-            /*
-            g.DrawString(
-            $"Я гравитон\nc cилой {particles.Count}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
-            new Font("Verdana", 10), // шрифт и его размер
-            new SolidBrush(Color.White), // цвет шрифта
-            X, // расположение в пространстве
-            Y
-        ); */
 
         }
     }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,7 +16,8 @@ namespace particles
         Emitter emitter; //эммитер без явного создания
 
         List<Emitter> emitters = new List<Emitter>();
-        List<Particle> particles = new List<Particle>(); // удалить 
+        List<Particle> particles = new List<Particle>();
+
 
         RadarPoint point2; // добавил поле под вторую точку
 
@@ -53,9 +55,18 @@ namespace particles
             emitter.impactPoints.Add(point2);
         }
 
+        public bool start = true;
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            emitter.UpdateState(); // обновляем систему каждый тик 
+            if(start == true)
+            {
+                emitter.UpdateState(); // обновляем систему каждый тик 
+            } 
+            else
+            {
+                //просто ничего
+            }
 
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
@@ -131,12 +142,12 @@ namespace particles
 
         private void button1_Click(object sender, EventArgs e)
         {
-            emitters.Clear();
+            start = false;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        public void button2_Click(object sender, EventArgs e)
         {
-
+            start = true;
         }
     }
 }

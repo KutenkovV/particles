@@ -170,9 +170,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(660, 601);
+            this.button1.Location = new System.Drawing.Point(649, 601);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 23);
+            this.button1.Size = new System.Drawing.Size(119, 23);
             this.button1.TabIndex = 18;
             this.button1.Text = "Астанавитесь";
             this.button1.UseVisualStyleBackColor = true;
@@ -180,7 +180,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(777, 601);
+            this.button2.Location = new System.Drawing.Point(774, 601);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(111, 23);
             this.button2.TabIndex = 19;
@@ -192,7 +192,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1042, 668);
+            this.ClientSize = new System.Drawing.Size(1044, 673);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label6);
