@@ -59,24 +59,26 @@ namespace particles
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            emitter.UpdateState2(); // обновляем систему каждый тик
+
+            if (start == true)
+            {
+                emitter.UpdateState(); // обновляем систему каждый тик 
+            }
+
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
                 g.Clear(Color.Black);
                 emitter.Render(g);
             }
 
-            if (start == true)
+            foreach (var p in emitter.particles)
             {
-                foreach (var p in emitter.particles)
+                if (p.X > picDisplay.Width || p.Y > picDisplay.Height || p.X < 0 || p.Y < 0)
                 {
-                    if (p.X > picDisplay.Width || p.Y > picDisplay.Height || p.X < 0 || p.Y < 0)
-                    {
-                        p.Life = 0;
-                    }
+                    p.Life = 0;
                 }
-
-                emitter.UpdateState(); // обновляем систему каждый тик 
-            } 
+            }
 
             picDisplay.Invalidate(); //очень важный момент - обновляем picDisplay
         }

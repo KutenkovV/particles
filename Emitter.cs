@@ -129,7 +129,40 @@ namespace particles
             }
 
         }
+
+        //второй апдейтер, который обновляет рендер частиц при паузе Q_Q
+        public void UpdateState2()
+        {
+            int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
+
+            foreach (var particle in particles)
+            {
+                if (particle.Life <= 0)
+                {
+
+
+                    if (particlesToCreate > 0)
+                    {
+                        particlesToCreate -= 1; // уменьшаем счётчик созданных частиц на 1
+                        ResetParticle(particle);
+                    }
+                }
+                else
+                {
+                    foreach (var point in impactPoints)
+                    {
+                        point.ImpactParticle(particle);
+                    }
+                }
+            }
+
+            while (particlesToCreate >= 1)
+            {
+                particlesToCreate -= 1;
+            }
+        }
     }
+
 
     // до лучших времен
     // эммитер, который создает частицы падающие сверху
