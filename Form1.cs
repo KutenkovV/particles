@@ -16,10 +16,10 @@ namespace particles
         Emitter emitter; //эммитер без явного создания
 
         List<Emitter> emitters = new List<Emitter>();
-        List<Particle> particles = new List<Particle>();
+        List<Particle> particles = new List<Particle>(); // в душе не чаю гдеикак юзается (пока что)
 
 
-        RadarPoint point2; // добавил поле под вторую точку
+        RadarPoint point2; // добавил поле под вторую точку (Радар)
 
         public Form1()
         {
@@ -43,7 +43,7 @@ namespace particles
                 Y = picDisplay.Height / 2,
             };
 
-            emitters.Add(this.emitter); // все равно добавляю в список emitters, чтобы он рендерился и обновлялся
+            emitters.Add(this.emitter); // добавляем эммитер в список эммитеров
 
             point2 = new RadarPoint
             {
@@ -59,20 +59,24 @@ namespace particles
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if(start == true)
-            {
-                emitter.UpdateState(); // обновляем систему каждый тик 
-            } 
-            else
-            {
-                //просто ничего
-            }
-
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
-                g.Clear(Color.Black); // здесь задаем цвет фона
-                emitter.Render(g); // Рендерим нашу кучу частицы
+                g.Clear(Color.Black);
+                emitter.Render(g);
             }
+
+            if (start == true)
+            {
+                foreach (var p in emitter.particles)
+                {
+                    if (p.X > picDisplay.Width || p.Y > picDisplay.Height || p.X < 0 || p.Y < 0)
+                    {
+                        p.Life = 0;
+                    }
+                }
+
+                emitter.UpdateState(); // обновляем систему каждый тик 
+            } 
 
             picDisplay.Invalidate(); //очень важный момент - обновляем picDisplay
         }
@@ -98,9 +102,12 @@ namespace particles
         private void tbSpreading_Scroll(object sender, EventArgs e)
         {
             emitter.Spreading = tbSpreading.Value;
+
+            // ниже просто плюшка не смотри на нее
             lblSpreading.Text = $"{tbSpreading.Value}°"; // вывод значения
         }
 
+        // радиобаттоны работы гравитации
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton2.Checked)
@@ -133,21 +140,33 @@ namespace particles
             }
         }
 
-        // Кол-во частиц
+        // Кол-во частиц (баганутое)
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             emitter.ParticlesPerTick = trackBar1.Value;
             trackBar1.Value = trackBar1.Value;
         }
 
+        // кнопочка паузы
         private void button1_Click(object sender, EventArgs e)
         {
             start = false;
         }
 
+        // кнопочка старта
         public void button2_Click(object sender, EventArgs e)
         {
             start = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            emitter.UpdateState(); // обновляем систему каждый тик 
+        }
+
+        private void picDisplay_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -16,8 +16,8 @@ namespace particles
         public float X; // X и Y положение частицы в пространстве 
         public float Y;
 
-        public float SpeedX; // скорость по оси X
-        public float SpeedY; // скорость по оси Y
+        public float SpeedX; // скорость по оси X и Y
+        public float SpeedY; 
 
         public static Random rand = new Random();
 
@@ -49,6 +49,7 @@ namespace particles
         }
     }
 
+    // наша область Радар
     public class RadarPoint : IImpactPoint
     {
         public HashSet<Particle> rad = new HashSet<Particle>();
@@ -113,6 +114,7 @@ namespace particles
         }
     }
 
+    // 
     public class ParticleColorful : Particle
     {
         public Color FromColor;

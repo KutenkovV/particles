@@ -36,8 +36,6 @@ namespace particles
 
         public List<Particle> particles = new List<Particle>();
 
-
-        // добавил новый метод, виртуальным, чтобы переопределять можно было
         // сброс частицы
         public int ParticlesCount = 500;
 
@@ -73,7 +71,7 @@ namespace particles
             return particle;
         }
 
-        public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // тут буду хранится точки притяжения
+        public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // тут храним точки притяжения
 
         public void UpdateState()
         {
@@ -83,12 +81,11 @@ namespace particles
             {   
                 if (particle.Life <= 0)
                 {
-                    ResetParticle(particle);
+                    
 
                     if (particlesToCreate > 0)
                     {
-                        /* у нас как сброс частицы равносилен созданию частицы */
-                        particlesToCreate -= 1; // поэтому уменьшаем счётчик созданных частиц на 1
+                        particlesToCreate -= 1; // уменьшаем счётчик созданных частиц на 1
                         ResetParticle(particle);
                     }
                 }
@@ -110,9 +107,6 @@ namespace particles
                 }
             }
 
-            // второй цикл меняем на while, 
-            // этот новый цикл также будет срабатывать только в самом начале работы эмиттера
-            // собственно пока не накопится критическая масса частиц
             while (particlesToCreate >= 1)
             {
                 particlesToCreate -= 1;
@@ -129,7 +123,6 @@ namespace particles
                 particle.Draw(g);
             }
 
-            // рисую точки притяжения красными кружочками
             foreach (var point in impactPoints)
             {
                 point.Render(g);
@@ -138,6 +131,7 @@ namespace particles
         }
     }
 
+    // до лучших времен
     // эммитер, который создает частицы падающие сверху
     public class TopEmitter : Emitter
     {
