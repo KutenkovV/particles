@@ -52,11 +52,14 @@ namespace particles
     // наша область Радар
     public class RadarPoint : IImpactPoint
     {
-        public HashSet<Particle> rad = new HashSet<Particle>();
+        public HashSet<Particle> generalCounter = new HashSet<Particle>();
+
         public HashSet<Particle> big = new HashSet<Particle>();
+        public HashSet<Particle> medium = new HashSet<Particle>();
         public HashSet<Particle> small = new HashSet<Particle>();
 
-        public int Power = 100; // размер кружка        
+        // размер кружка
+        public int Power = 100;        
 
         public override void ImpactParticle(Particle particle)
         {
@@ -66,31 +69,37 @@ namespace particles
             double r = Math.Sqrt(gX * gX + gY * gY);
             if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
             {
+                particle.Life = 1;
+
+
                 var color = particle as ParticleColorful;
+                generalCounter.Add(particle);
 
-                color.FromColor = (Color.Green);
-                color.ToColor = (Color.Green);
-                rad.Add(particle);
 
-                if(particle.Radius > 5)
+                // тут заполням списки разными по размеру частицами
+                if(particle.Radius > 6)
                 {
                     big.Add(particle);
-                } else if(particle.Radius < 5)
+                } 
+                else if(particle.Radius > 3 && particle.Radius <= 6)
+                {
+                    medium.Add(particle);
+                } 
+                else if(particle.Radius <= 3)
                 {
                     small.Add(particle);
                 }
             }
             else
             {
-                // чистим наши хэш-листы
-                rad.Remove(particle);
+                // чистим наши хэш-списки
+                generalCounter.Remove(particle);
+
                 big.Remove(particle);
+                medium.Remove(particle);
                 small.Remove(particle);
 
                 var color = particle as ParticleColorful;
-
-                color.FromColor = (Color.Gold);
-                color.ToColor = Color.FromArgb(0, Color.Red);
             }
         }
 
@@ -105,7 +114,7 @@ namespace particles
                );
 
             g.DrawString(
-            $"\n{rad.Count} \nБольшие {big.Count} \nМаленькие {small.Count}",
+            $"\n{generalCounter.Count} \nБольшие {big.Count} \nМаленькие {small.Count}",
             new Font("Verdana", 14),
             new SolidBrush(Color.White),
             X,

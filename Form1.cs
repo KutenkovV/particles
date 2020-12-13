@@ -59,7 +59,7 @@ namespace particles
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            emitter.UpdateState2(); // обновляем систему каждый тик
+            emitter.UpdateState2();
 
             if (start == true)
             {

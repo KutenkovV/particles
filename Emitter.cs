@@ -78,7 +78,13 @@ namespace particles
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
 
             foreach (var particle in particles)
-            {   
+            {
+                // явно проверяем живая ли еще частица =o
+                if(particle.Life > 0)
+                {
+                    particle.Life -= 1;
+                }
+
                 if (particle.Life <= 0)
                 {
                     
@@ -102,8 +108,6 @@ namespace particles
 
                     particle.SpeedX += GravitationX;
                     particle.SpeedY += GravitationY;
-
-                    particle.Life -= 1; // уменьшаю здоровье
                 }
             }
 
@@ -137,22 +141,9 @@ namespace particles
 
             foreach (var particle in particles)
             {
-                if (particle.Life <= 0)
+                foreach (var point in impactPoints)
                 {
-
-
-                    if (particlesToCreate > 0)
-                    {
-                        particlesToCreate -= 1; // уменьшаем счётчик созданных частиц на 1
-                        ResetParticle(particle);
-                    }
-                }
-                else
-                {
-                    foreach (var point in impactPoints)
-                    {
-                        point.ImpactParticle(particle);
-                    }
+                    point.ImpactParticle(particle);
                 }
             }
 
