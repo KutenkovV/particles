@@ -67,14 +67,13 @@ namespace particles
             float gY = Y - particle.Y;
 
             double r = Math.Sqrt(gX * gX + gY * gY);
-            if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
+            if (r + particle.Radius < Power / 2 && particle.Life > 0) // если частица оказалось внутри окружности
             {
-                particle.Life = 1;
-
-
                 var color = particle as ParticleColorful;
                 generalCounter.Add(particle);
 
+                color.FromColor = Color.Green;
+                color.ToColor = Color.Green;
 
                 // тут заполням списки разными по размеру частицами
                 if(particle.Radius > 6)
@@ -92,14 +91,17 @@ namespace particles
             }
             else
             {
+                var color = particle as ParticleColorful;
+
+                color.FromColor = Color.Gold;
+                color.ToColor = Color.FromArgb(0, Color.Red);
+
                 // чистим наши хэш-списки
                 generalCounter.Remove(particle);
 
                 big.Remove(particle);
                 medium.Remove(particle);
                 small.Remove(particle);
-
-                var color = particle as ParticleColorful;
             }
         }
 
@@ -114,7 +116,7 @@ namespace particles
                );
 
             g.DrawString(
-            $"\n{generalCounter.Count} \nБольшие {big.Count} \nМаленькие {small.Count}",
+            $"{generalCounter.Count} \nБольшие {big.Count} \nСреднии {medium.Count} \nМаленькие {small.Count}",
             new Font("Verdana", 14),
             new SolidBrush(Color.White),
             X,

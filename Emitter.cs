@@ -87,8 +87,6 @@ namespace particles
 
                 if (particle.Life <= 0)
                 {
-                    
-
                     if (particlesToCreate > 0)
                     {
                         particlesToCreate -= 1; // уменьшаем счётчик созданных частиц на 1

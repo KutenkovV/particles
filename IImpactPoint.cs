@@ -27,7 +27,7 @@ namespace particles
         }
     }
 
-    // до лучших времен
+    // лучшие времена настали
     public class GravityPoint : IImpactPoint
     {
         public int Power = 100; // сила притяжения
@@ -60,10 +60,10 @@ namespace particles
                );
 
             g.DrawString(
-            $"Я гравитон\nc cилой {Power}", // надпись, можно перенос строки вставлять
-            new Font("Verdana", 10), // шрифт и его размер
-            new SolidBrush(Color.White), // цвет шрифта
-            X, // расположение в пространстве
+            $"Я гравитон\nc cилой {Power}",
+            new Font("Verdana", 10),
+            new SolidBrush(Color.White),
+            X,
             Y
         );
         }

@@ -20,6 +20,7 @@ namespace particles
 
 
         RadarPoint point2; // добавил поле под вторую точку (Радар)
+        GravityPoint gravyPoint; 
 
         public Form1()
         {
@@ -85,10 +86,10 @@ namespace particles
 
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
-            // в обработчике заносим положение мыши в переменные для хранения положения мыши
             emitter.MousePositionX = e.X;
             emitter.MousePositionY = e.Y;
 
+            // в обработчике заносим положение мыши в переменные для хранения положения мыши
             point2.X = e.X;
             point2.Y = e.Y;
         }
@@ -110,14 +111,14 @@ namespace particles
         }
 
         // радиобаттоны работы гравитации
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void GravyButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton2.Checked)
+            if (buttonOFF.Checked)
             {
                 emitter.GravitationY = 0;
             }
 
-            if (radioButton1.Checked)
+            if (buttonON.Checked)
             {
                 emitter.GravitationY = 1;
             }
@@ -142,11 +143,13 @@ namespace particles
             }
         }
 
-        // Кол-во частиц (баганутое)
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        // Позунок кол-ва частиц
+        private void PerTickCount_Scroll(object sender, EventArgs e)
         {
-            emitter.ParticlesPerTick = trackBar1.Value;
-            trackBar1.Value = trackBar1.Value;
+            emitter.ParticlesPerTick = tbPointsCount.Value;
+            tbPointsCount.Value = tbPointsCount.Value;
+
+            label7.Text = $"{tbPointsCount.Value}";
         }
 
         // кнопочка паузы
@@ -167,6 +170,68 @@ namespace particles
         }
 
         private void picDisplay_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void picDisplay_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                emitter.impactPoints.Add(new GravityPoint
+                {
+                    X = e.X,
+                    Y = e.Y,
+
+                    Power = tbPowerGravity.Value,
+                });
+            }
+            else
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    foreach (var p in emitter.impactPoints)
+                    {
+                        if (p is GravityPoint)
+                        {
+                            var a = p as GravityPoint;
+                            var x = a.X - e.X;
+                            var y = a.Y - e.Y;
+
+                            double r = Math.Sqrt(x * x + y * y);
+                            if (r <= a.Power / 2)
+                            {
+                                emitter.impactPoints.Remove(p as GravityPoint);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // ползунок грави точек
+        private void GravyPointsPower_Scroll(object sender, EventArgs e)
+        {
+            tbPowerGravity.Value = tbPowerGravity.Value;
+
+            foreach (var R in emitter.impactPoints)
+            {
+                if (R is GravityPoint)
+                {
+                    (R as GravityPoint).Power = tbPowerGravity.Value;
+                }
+            }
+
+            label5.Text = $"{tbPowerGravity.Value}";
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
