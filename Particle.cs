@@ -52,6 +52,7 @@ namespace particles
     // наша область Радар
     public class RadarPoint : IImpactPoint
     {
+        //листы под наши частицы, которые будем подсчитывать
         public HashSet<Particle> generalCounter = new HashSet<Particle>();
 
         public HashSet<Particle> big = new HashSet<Particle>();
@@ -115,13 +116,18 @@ namespace particles
                    Power
                );
 
+            var stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+
             g.DrawString(
-            $"{generalCounter.Count} \nБольшие {big.Count} \nСреднии {medium.Count} \nМаленькие {small.Count}",
-            new Font("Verdana", 14),
-            new SolidBrush(Color.White),
-            X,
-            Y
-        );
+                $"Всего: {generalCounter.Count} \nБольшие: {big.Count} \nСредние: {medium.Count} \nМаленькие: {small.Count}",
+                new Font("Verdana", 14),
+                new SolidBrush(Color.White),
+                X,
+                Y,
+                stringFormat
+            );
         }
     }
 

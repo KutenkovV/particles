@@ -14,24 +14,17 @@ namespace particles
     public partial class Form1 : Form
     {
         Emitter emitter; //эммитер без явного создания
-
         List<Emitter> emitters = new List<Emitter>();
-        List<Particle> particles = new List<Particle>(); // в душе не чаю гдеикак юзается (пока что)
-
-
         RadarPoint point2; // добавил поле под вторую точку (Радар)
-        GravityPoint gravyPoint; 
 
         public Form1()
         {
             InitializeComponent();
 
             picDisplay.MouseWheel += picDisplay_MouseWheel;
-
-            // привязали к пикчбоку изображения, чтоб можно было рисовать
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
 
-            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            this.emitter = new Emitter
             {
                 Direction = 0,
                 Spreading = 10,
@@ -44,7 +37,7 @@ namespace particles
                 Y = picDisplay.Height / 2,
             };
 
-            emitters.Add(this.emitter); // добавляем эммитер в список эммитеров
+            emitters.Add(this.emitter);
 
             point2 = new RadarPoint
             {
@@ -57,6 +50,23 @@ namespace particles
         }
 
         public bool start = true;
+
+        // кнопочка паузы
+        private void button1_Click(object sender, EventArgs e)
+        {
+            start = false;
+        }
+
+        // кнопочка старта
+        public void button2_Click(object sender, EventArgs e)
+        {
+            start = true;
+        }
+
+        private void TickStep(object sender, EventArgs e)
+        {
+            emitter.UpdateState(); // обновляем систему при тыке
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -81,7 +91,26 @@ namespace particles
                 }
             }
 
-            picDisplay.Invalidate(); //очень важный момент - обновляем picDisplay
+            picDisplay.Invalidate();
+        }
+
+        // наш скролл радара мышкой
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                if (point2.Power < 359)
+                {
+                    point2.Power += 15;
+                }
+            }
+            else if (e.Delta < 0)
+            {
+                if (point2.Power > 10)
+                {
+                    point2.Power -= 15;
+                }
+            }
         }
 
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
@@ -92,22 +121,6 @@ namespace particles
             // в обработчике заносим положение мыши в переменные для хранения положения мыши
             point2.X = e.X;
             point2.Y = e.Y;
-        }
-
-        // направление струи
-        private void tbDirection_Scroll(object sender, EventArgs e)
-        {
-            emitter.Direction = tbDirection.Value;
-            lblDirection.Text = $"{tbDirection.Value}°"; // вывод значения
-        }
-
-        // разброс струи
-        private void tbSpreading_Scroll(object sender, EventArgs e)
-        {
-            emitter.Spreading = tbSpreading.Value;
-
-            // ниже просто плюшка не смотри на нее
-            lblSpreading.Text = $"{tbSpreading.Value}°"; // вывод значения
         }
 
         // радиобаттоны работы гравитации
@@ -124,23 +137,18 @@ namespace particles
             }
         }
 
-        // наш скролл радара мышкой
-        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        // направление струи
+        private void tbDirection_Scroll(object sender, EventArgs e)
         {
-            if (e.Delta > 0)
-            {
-                if(point2.Power < 359)
-                {
-                    point2.Power += 15;
-                }
-            }
-            else if (e.Delta < 0)
-            {
-                if (point2.Power > 10)
-                {
-                    point2.Power -= 15;
-                }
-            }
+            emitter.Direction = tbDirection.Value;
+            lblDirection.Text = $"{tbDirection.Value}°";
+        }
+
+        // разброс струи
+        private void tbSpreading_Scroll(object sender, EventArgs e)
+        {
+            emitter.Spreading = tbSpreading.Value;
+            lblSpreading.Text = $"{tbSpreading.Value}°";
         }
 
         // Позунок кол-ва частиц
@@ -152,61 +160,19 @@ namespace particles
             label7.Text = $"{tbPointsCount.Value}";
         }
 
-        // кнопочка паузы
-        private void button1_Click(object sender, EventArgs e)
+        // ползунок силы антигравитонов
+        private void AntuGravyPointsPower_Scroll(object sender, EventArgs e)
         {
-            start = false;
-        }
+            tbPowerAntiGravity.Value = tbPowerAntiGravity.Value;
 
-        // кнопочка старта
-        public void button2_Click(object sender, EventArgs e)
-        {
-            start = true;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            emitter.UpdateState(); // обновляем систему каждый тик 
-        }
-
-        private void picDisplay_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void picDisplay_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
+            foreach (var R in emitter.impactPoints)
             {
-                emitter.impactPoints.Add(new GravityPoint
+                if (R is AntiGravityPoint)
                 {
-                    X = e.X,
-                    Y = e.Y,
-
-                    Power = tbPowerGravity.Value,
-                });
-            }
-            else
-            {
-                if (e.Button == MouseButtons.Right)
-                {
-                    foreach (var p in emitter.impactPoints)
-                    {
-                        if (p is GravityPoint)
-                        {
-                            var a = p as GravityPoint;
-                            var x = a.X - e.X;
-                            var y = a.Y - e.Y;
-
-                            double r = Math.Sqrt(x * x + y * y);
-                            if (r <= a.Power / 2)
-                            {
-                                emitter.impactPoints.Remove(p as GravityPoint);
-                                break;
-                            }
-                        }
-                    }
+                    (R as AntiGravityPoint).Power = tbPowerAntiGravity.Value;
                 }
+
+                label11.Text = $"{tbPowerAntiGravity.Value}";
             }
         }
 
@@ -226,14 +192,97 @@ namespace particles
             label5.Text = $"{tbPowerGravity.Value}";
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        // нуу тут мы радиокнопочки себе выбираем, и с помощью них натыкаиваем себе.. точки гравитоны, антигравитоны, удаляем их и т.д.
+        private void GravyPoints_CheckedChanged(object sender, MouseEventArgs e)
         {
+            if (btnGP.Checked)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    emitter.impactPoints.Add(new GravityPoint
+                    {
+                        X = e.X,
+                        Y = e.Y,
 
+                        Power = tbPowerGravity.Value,
+                    });
+                }
+            }
+
+            // удаляем обычный гравитон
+            if (e.Button == MouseButtons.Right)
+            {
+                foreach (var p in emitter.impactPoints)
+                {
+                    if (p is GravityPoint)
+                    {
+                        var a = p as GravityPoint;
+                        var x = a.X - e.X;
+                        var y = a.Y - e.Y;
+
+                        double r = Math.Sqrt(x * x + y * y);
+                        if (r <= a.Power / 2)
+                        {
+                            emitter.impactPoints.Remove(p as GravityPoint);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (btnAGP.Checked)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    emitter.impactPoints.Add(new AntiGravityPoint
+                    {
+                        X = e.X,
+                        Y = e.Y,
+
+                        Power = tbPowerAntiGravity.Value,
+                    });
+                }
+            }
+
+            // удаляем антигравитон
+            if (e.Button == MouseButtons.Right)
+            {
+                foreach (var p in emitter.impactPoints)
+                {
+                    if (p is AntiGravityPoint)
+                    {
+                        var a = p as AntiGravityPoint;
+                        var x = a.X - e.X;
+                        var y = a.Y - e.Y;
+
+                        double r = Math.Sqrt(x * x + y * y);
+                        if (r <= a.Power / 2)
+                        {
+                            emitter.impactPoints.Remove(p as AntiGravityPoint);
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        //убираем все точки с экрана
+        private void allPoints_remove(object sender, EventArgs e)
         {
+            emitter.impactPoints = emitter.impactPoints.Where(x => !(x is GravityPoint)).ToList();
+            emitter.impactPoints = emitter.impactPoints.Where(x => !(x is AntiGravityPoint)).ToList();
+        }
 
+        // убираем все гравитоны
+        private void GravitonRemove(object sender, EventArgs e)
+        {
+            emitter.impactPoints = emitter.impactPoints.Where(x => !(x is GravityPoint)).ToList();
+        }
+
+        // убираем все антигравитоны
+        private void AntiGravitonRemove(object sender, EventArgs e)
+        {
+            emitter.impactPoints = emitter.impactPoints.Where(x => !(x is AntiGravityPoint)).ToList();
         }
     }
 }

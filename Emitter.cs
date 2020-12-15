@@ -21,7 +21,7 @@ namespace particles
         public int LifeMin = 40; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
 
-        public int ParticlesPerTick = 5;
+        public int ParticlesPerTick = 1;
 
         public Color ColorFrom = Color.White; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
@@ -71,11 +71,11 @@ namespace particles
             return particle;
         }
 
-        public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // тут храним точки притяжения
+        public List<IImpactPoint> impactPoints = new List<IImpactPoint>();
 
         public void UpdateState()
         {
-            int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
+            int particlesToCreate = ParticlesPerTick;
 
             foreach (var particle in particles)
             {
@@ -89,7 +89,7 @@ namespace particles
                 {
                     if (particlesToCreate > 0)
                     {
-                        particlesToCreate -= 1; // уменьшаем счётчик созданных частиц на 1
+                        particlesToCreate -= 1;
                         ResetParticle(particle);
                     }
                 }
@@ -98,7 +98,6 @@ namespace particles
                     particle.X += particle.SpeedX;
                     particle.Y += particle.SpeedY;
 
-                    // каждая точка по-своему воздействует на вектор скорости
                     foreach (var point in impactPoints)
                     {
                         point.ImpactParticle(particle);
@@ -135,19 +134,12 @@ namespace particles
         //второй апдейтер, который обновляет рендер частиц при паузе Q_Q
         public void UpdateState2()
         {
-            int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик
-
             foreach (var particle in particles)
             {
                 foreach (var point in impactPoints)
                 {
                     point.ImpactParticle(particle);
                 }
-            }
-
-            while (particlesToCreate >= 1)
-            {
-                particlesToCreate -= 1;
             }
         }
     }

@@ -30,18 +30,16 @@ namespace particles
     // лучшие времена настали
     public class GravityPoint : IImpactPoint
     {
-        public int Power = 100; // сила притяжения
+        public int Power = 100;
 
-        // а сюда по сути скопировали с минимальными правками то что было в UpdateState
         public override void ImpactParticle(Particle particle)
         {
             float gX = X - particle.X;
             float gY = Y - particle.Y;
 
-            double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
-            if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
+            double r = Math.Sqrt(gX * gX + gY * gY);
+            if (r + particle.Radius < Power / 2)
             {
-                // то притягиваем ее
                 float r2 = (float)Math.Max(100, gX * gX + gY * gY);
                 particle.SpeedX += gX * Power / r2;
                 particle.SpeedY += gY * Power / r2;
@@ -50,7 +48,6 @@ namespace particles
 
         public override void Render(Graphics g)
         {
-            // буду рисовать окружность с диаметром равным Power
             g.DrawEllipse(
                    new Pen(Color.Red),
                    X - Power / 2,
@@ -59,30 +56,59 @@ namespace particles
                    Power
                );
 
+            var stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+
             g.DrawString(
-            $"Я гравитон\nc cилой {Power}",
-            new Font("Verdana", 10),
-            new SolidBrush(Color.White),
-            X,
-            Y
-        );
+                $"Гравитон\nc cилой {Power}",
+                new Font("Verdana", 12),
+                new SolidBrush(Color.White),
+                X,
+                Y,
+                stringFormat 
+            );
         }
     }
 
-    // до лучших времен
+    // Лучшие времена настали
     public class AntiGravityPoint : IImpactPoint
     {
-        public int Power = 100; // сила отторжения
+        public int Power = 100;
 
-        // а сюда по сути скопировали с минимальными правками то что было в UpdateState
         public override void ImpactParticle(Particle particle)
         {
             float gX = X - particle.X;
             float gY = Y - particle.Y;
+
             float r2 = (float)Math.Max(100, gX * gX + gY * gY);
 
-            particle.SpeedX -= gX * Power / r2; // тут минусики вместо плюсов
-            particle.SpeedY -= gY * Power / r2; // и тут
+            particle.SpeedX -= gX * Power / r2;
+            particle.SpeedY -= gY * Power / r2;
+        }
+
+        public override void Render(Graphics g)
+        {
+            g.DrawEllipse(
+                   new Pen(Color.Red),
+                   X - Power / 2,
+                   Y - Power / 2,
+                   Power,
+                   Power
+               );
+
+            var stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+
+            g.DrawString(
+                $"Антигравитон\nc cилой {Power}",
+                new Font("Verdana", 12),
+                new SolidBrush(Color.White),
+                X,
+                Y,
+                stringFormat
+            );
         }
     }
 }
